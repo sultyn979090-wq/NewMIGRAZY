@@ -1,34 +1,56 @@
-import { drizzle } from 'drizzle-orm/node-postgres';
+import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 import * as schema from './schema';
+import { createMockDrizzleDb } from './in-memory-db';
 
-// Add global connection pool caching to persist across hot-reloads
 declare global {
   var _postgresPool: Pool | undefined;
+  var _activeDb: any | undefined;
 }
 
-// Function to create or retrieve the connection pool
 export const createPool = () => {
+  if (!process.env.SQL_HOST) {
+    return null;
+  }
+
   if (!global._postgresPool) {
     global._postgresPool = new Pool({
       host: process.env.SQL_HOST,
       user: process.env.SQL_USER,
       password: process.env.SQL_PASSWORD,
       database: process.env.SQL_DB_NAME,
+      port: process.env.SQL_PORT ? Number(process.env.SQL_PORT) : 5432,
       max: 10,
-      connectionTimeoutMillis: 15000,
+      connectionTimeoutMillis: 5000,
     });
 
-    // Prevent unhandled pool-level errors from crashing the application
     global._postgresPool.on('error', (err) => {
-      console.error('Unexpected error on idle SQL pool client:', err);
+      console.warn('Unexpected error on idle SQL pool client:', err.message);
     });
   }
   return global._postgresPool;
 };
 
-// Create or retrieve the pool instance
-const pool = createPool();
+// Initialize database instance
+function initDatabase() {
+  if (global._activeDb) {
+    return global._activeDb;
+  }
 
-// Initialize Drizzle with the pool and schema
-export const db = drizzle(pool, { schema });
+  const pool = createPool();
+  if (pool && process.env.SQL_HOST) {
+    try {
+      global._activeDb = drizzle(pool, { schema });
+      return global._activeDb;
+    } catch (err: any) {
+      console.warn('[AI Studio] PostgreSQL connection failed, falling back to in-memory store:', err.message);
+    }
+  }
+
+  // Fallback to in-memory store
+  global._activeDb = createMockDrizzleDb();
+  return global._activeDb;
+}
+
+export const db: NodePgDatabase<typeof schema> = initDatabase() as unknown as NodePgDatabase<typeof schema>;
+

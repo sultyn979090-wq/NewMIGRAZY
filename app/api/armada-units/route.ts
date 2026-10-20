@@ -51,28 +51,28 @@ export async function GET(req: Request) {
     const allUnits = await query;
 
     // Apply filtering in memory or conditional where
-    let filtered = allUnits;
+    let filtered: any[] = allUnits;
 
     if (pool && pool !== 'semua') {
-      filtered = filtered.filter((u) => u.poolDefault?.toLowerCase() === pool.toLowerCase());
+      filtered = filtered.filter((u: any) => u.poolDefault?.toLowerCase() === pool.toLowerCase());
     }
 
     if (statusServis && statusServis !== 'semua') {
-      filtered = filtered.filter((u) => u.statusServis?.toLowerCase() === statusServis.toLowerCase());
+      filtered = filtered.filter((u: any) => u.statusServis?.toLowerCase() === statusServis.toLowerCase());
     }
 
     if (motorId && motorId !== 'semua') {
       const mId = parseInt(motorId, 10);
-      filtered = filtered.filter((u) => u.motorId === mId);
+      filtered = filtered.filter((u: any) => u.motorId === mId);
     }
 
     if (search && search.trim() !== '') {
       const q = search.trim().toLowerCase();
       filtered = filtered.filter(
-        (u) =>
-          u.kodeUnit.toLowerCase().includes(q) ||
-          u.nomorPlat.toLowerCase().includes(q) ||
-          u.warna.toLowerCase().includes(q) ||
+        (u: any) =>
+          u.kodeUnit?.toLowerCase().includes(q) ||
+          u.nomorPlat?.toLowerCase().includes(q) ||
+          u.warna?.toLowerCase().includes(q) ||
           (u.namaModel && u.namaModel.toLowerCase().includes(q)) ||
           (u.namaPenyewa && u.namaPenyewa.toLowerCase().includes(q))
       );
