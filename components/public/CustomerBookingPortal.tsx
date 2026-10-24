@@ -304,14 +304,14 @@ export default function CustomerBookingPortal({
           </h1>
 
           <p className="text-sm md:text-base text-slate-300 leading-relaxed max-w-2xl">
-            Layanan sewa motor terpercaya dengan jaminan unit prima, multi-tier tarif hemat, dan kepatuhan privasi penuh. Bebas ribet, gratis 2 helm SNI + jas hujan, siap antar-jemput stasiun atau hotel Anda.
+            Layanan sewa motor terpercaya dengan jaminan unit prima dan pilihan tarif hemat. Bebas ribet, gratis 2 helm SNI + jas hujan, siap antar-jemput stasiun atau hotel Anda.
           </p>
 
-          {/* Privacy & Trust Badges (BR-05) */}
+          {/* Trust Badges */}
           <div className="pt-3 flex flex-wrap items-center gap-2.5 text-xs text-slate-300">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/10 backdrop-blur-xs border border-white/10">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <strong>Privasi UU PDP:</strong> Tanpa NIK KTP (SIM/KTM Cukup)
+              <strong>Syarat Praktis:</strong> Cukup Identitas Pendukung (SIM/KTM)
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/10 backdrop-blur-xs border border-white/10">
               <Clock className="w-4 h-4 text-blue-400" />
@@ -506,7 +506,7 @@ export default function CustomerBookingPortal({
                 Formulir Pemesanan Sewa Motor
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Kepatuhan Privasi UU PDP: Cukup cantumkan Jenis ID Pendukung. Tanpa perlu mengunggah foto atau NIK KTP.
+                Lengkapi data pemesanan berikut untuk reservasi unit secara langsung.
               </p>
             </div>
 
@@ -539,11 +539,11 @@ export default function CustomerBookingPortal({
               </div>
             )}
 
-            {/* SEKSI 1: IDENTITAS PENYEWA (UU PDP NO NIK) */}
+            {/* SEKSI 1: IDENTITAS PENYEWA */}
             <div className="space-y-4">
               <h4 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
                 <User className="w-4 h-4 text-emerald-600" />
-                1. Data Penyewa (UU PDP Compliant)
+                1. Data Penyewa
               </h4>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -578,8 +578,8 @@ export default function CustomerBookingPortal({
                     <option value="ID_KARYAWAN">ID Karyawan Perusahaan</option>
                     <option value="LAINNYA">ID Resmi Lainnya</option>
                   </select>
-                  <span className="text-[10px] text-emerald-700 block mt-1">
-                    ✓ Aman: Tanpa NIK KTP 16-Digit
+                  <span className="text-[10px] text-slate-400 block mt-1">
+                    Pilih identitas yang akan ditunjukkan saat serah terima
                   </span>
                 </div>
 

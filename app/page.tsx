@@ -1109,7 +1109,7 @@ export default function RyokourentAuditDashboard() {
                     </span>
                   </div>
                   <p className="text-xs text-emerald-800 mt-0.5">
-                    Antarmuka pemesanan mandiri: katalog model live, indikator stok biner (Tersedia/Habis), formulir booking tanpa NIK KTP (UU PDP No. 27/2022), dan terhubung langsung ke State Machine.
+                    Antarmuka pemesanan mandiri: katalog model live, indikator stok biner (Tersedia/Habis), formulir booking cepat, dan terhubung langsung ke State Machine.
                   </p>
                 </div>
               </div>

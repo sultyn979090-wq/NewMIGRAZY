@@ -1,5 +1,6 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
+import fs from 'fs';
 import * as schema from './schema';
 
 declare global {
@@ -709,9 +710,29 @@ export const createMockPool = () => ({
   end: async () => {},
 });
 
+function isSocketAvailable(hostOrUrl?: string): boolean {
+  if (!hostOrUrl) return false;
+  try {
+    if (hostOrUrl.startsWith('/')) {
+      return fs.existsSync(hostOrUrl);
+    }
+    const match = hostOrUrl.match(/host=([^&]+)/);
+    if (match && match[1].startsWith('/')) {
+      return fs.existsSync(match[1]);
+    }
+  } catch {
+    return false;
+  }
+  return true;
+}
+
 // Function to create or retrieve the connection pool
 export const createPool = () => {
   const hasDbConfig = Boolean(process.env.SQL_HOST || process.env.DATABASE_URL);
+  const hasValidSocketOrTcp =
+    (process.env.SQL_HOST && isSocketAvailable(process.env.SQL_HOST)) ||
+    (process.env.DATABASE_URL && isSocketAvailable(process.env.DATABASE_URL));
+
   // Enforce DB credentials strictly in production when STRICT_PROD_DB=true.
   // During build time or preview, allow fallback mock pool so builds and preview workbench remain fully functional.
   const isStrictProduction =
@@ -719,14 +740,19 @@ export const createPool = () => {
     process.env.STRICT_PROD_DB === 'true' &&
     process.env.NEXT_PHASE !== 'phase-production-build';
 
-  if (!hasDbConfig) {
-    if (isStrictProduction) {
+  if (!hasDbConfig || !hasValidSocketOrTcp) {
+    if (isStrictProduction && hasDbConfig && !hasValidSocketOrTcp) {
+      throw new Error(
+        '[Database Error] Database Unix socket configured in SQL_HOST/DATABASE_URL is not mounted on disk in strict production mode.'
+      );
+    }
+    if (isStrictProduction && !hasDbConfig) {
       throw new Error(
         '[Database Error] Database credentials not configured in production environment (missing SQL_HOST or DATABASE_URL). Refusing silent fallback to in-memory store.'
       );
     }
     if (!global._postgresPool) {
-      console.log('[AI Studio] PostgreSQL credentials not found in env — using in-memory mock store');
+      console.log('[AI Studio] PostgreSQL credentials or Cloud SQL socket not active on disk — using in-memory mock store');
       global._postgresPool = createMockPool();
     }
     return global._postgresPool;

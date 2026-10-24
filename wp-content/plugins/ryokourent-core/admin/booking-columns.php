@@ -305,9 +305,19 @@ function ryokourent_render_settings_page() {
 		$notice = $result['message'];
 	}
 
-	$current_wa = ryokourent_get_admin_whatsapp_number();
-	$wa_logs    = get_option( 'ryokourent_wa_audit_log', array() );
-	$terms      = get_terms(
+	// D. Simpan Pengaturan CSS Frontend (ryokourent-public.css)
+	if ( isset( $_POST['ryokou_save_css_btn'] ) && check_admin_referer( 'ryokou_save_css_action', 'ryokou_css_nonce' ) ) {
+		$enable_css = isset( $_POST['ryokou_enable_frontend_css'] ) && '1' === $_POST['ryokou_enable_frontend_css'] ? '1' : '0';
+		update_option( 'ryokourent_enable_frontend_css', $enable_css );
+		$notice = ( '1' === $enable_css )
+			? __( 'CSS frontend (ryokourent-public.css) berhasil diaktifkan.', 'ryokourent' )
+			: __( 'CSS frontend (ryokourent-public.css) berhasil dinonaktifkan.', 'ryokourent' );
+	}
+
+	$current_wa          = ryokourent_get_admin_whatsapp_number();
+	$wa_logs             = get_option( 'ryokourent_wa_audit_log', array() );
+	$enable_frontend_css = get_option( 'ryokourent_enable_frontend_css', '1' );
+	$terms               = get_terms(
 		array(
 			'taxonomy'   => 'kategori_motor',
 			'hide_empty' => false,
@@ -423,6 +433,31 @@ function ryokourent_render_settings_page() {
 					</p>
 					<p style="color:#64748b;font-size:12px;margin-top:10px;">
 						<?php esc_html_e( 'Model yang diimpor mencakup taksonomi Kategori, tarif harian (1H, 1M, 2M), tarif jam (12J, 9J, 6J, 3J), denda keterlambatan, spesifikasi, dan perlengkapan helm/jas hujan.', 'ryokourent' ); ?>
+					</p>
+				</form>
+			</div>
+
+			<!-- Kartu 4: Pengaturan CSS Frontend (ryokourent-public.css) -->
+			<div style="background:#fff;padding:20px;border:1px solid #cbd5e1;border-radius:8px;">
+				<h2><?php esc_html_e( '4. Pengaturan CSS Frontend (ryokourent-public.css)', 'ryokourent' ); ?></h2>
+				<p style="color:#475569;">
+					<?php esc_html_e( 'Kontrol apakah file stylesheet ryokourent-public.css dimuat otomatis di frontend untuk menata katalog motor dan formulir pemesanan.', 'ryokourent' ); ?>
+				</p>
+				<form method="post">
+					<?php wp_nonce_field( 'ryokou_save_css_action', 'ryokou_css_nonce' ); ?>
+					<div style="background:#f8fafc;border:1px solid #e2e8f0;padding:12px 14px;border-radius:6px;margin-bottom:15px;">
+						<label style="font-weight:600;display:inline-flex;align-items:center;gap:8px;cursor:pointer;">
+							<input type="checkbox" name="ryokou_enable_frontend_css" value="1" <?php checked( '1', $enable_frontend_css ); ?> />
+							<?php esc_html_e( 'Aktifkan ryokourent-public.css sebagai CSS Frontend', 'ryokourent' ); ?>
+						</label>
+						<p style="color:#64748b;font-size:12px;margin:6px 0 0 24px;line-height:1.4;">
+							<?php esc_html_e( 'Saat aktif, file assets/css/ryokourent-public.css akan di-enqueue pada halaman publik (shortcode [ryokou_katalog] & [ryokou_booking_form]). Nonaktifkan jika styling ingin sepenuhnya dikelola oleh child theme GeneratePress atau custom stylesheet.', 'ryokourent' ); ?>
+						</p>
+					</div>
+					<p>
+						<button type="submit" name="ryokou_save_css_btn" class="button button-primary">
+							<?php esc_html_e( 'Simpan Pengaturan CSS', 'ryokourent' ); ?>
+						</button>
 					</p>
 				</form>
 			</div>

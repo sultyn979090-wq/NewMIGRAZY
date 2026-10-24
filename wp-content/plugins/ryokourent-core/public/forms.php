@@ -21,12 +21,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * 1. Enqueue CSS & JS Publik beserta Data Tarif Bertingkat (`ryokouPublicVars`)
  */
 function ryokourent_enqueue_public_assets() {
-	wp_enqueue_style(
-		'ryokourent-public-css',
-		RYOKOURENT_PLUGIN_URL . 'assets/css/ryokourent-public.css',
-		array(),
-		RYOKOURENT_VERSION
-	);
+	$enable_frontend_css = get_option( 'ryokourent_enable_frontend_css', '1' );
+	if ( '1' === $enable_frontend_css ) {
+		wp_enqueue_style(
+			'ryokourent-public-css',
+			RYOKOURENT_PLUGIN_URL . 'assets/css/ryokourent-public.css',
+			array(),
+			RYOKOURENT_VERSION
+		);
+	}
 
 	wp_enqueue_script(
 		'ryokourent-booking-js',
@@ -217,11 +220,11 @@ function ryokourent_render_booking_form_shortcode() {
 				<span>⚠️ <?php esc_html_e( 'Jadwal berada di luar jam operasional reguler (07.00–23.00 WIB). Pemesanan tetap dapat dikirim namun memerlukan kesepakatan ketersediaan petugas via WhatsApp.', 'ryokourent' ); ?></span>
 			</div>
 
-			<!-- Baris 4: Identitas Penyewa (Nama, WhatsApp, Status Pelanggan, & Jenis ID UU PDP D-21) -->
+			<!-- Baris 4: Identitas Penyewa (Nama, WhatsApp, Status Pelanggan, & Jenis ID) -->
 			<div class="ryokou-form-row">
 				<div class="ryokou-form-group">
 					<label for="ryokou_nama"><?php esc_html_e( '7. Nama Lengkap Penyewa (Sesuai KTP)', 'ryokourent' ); ?></label>
-					<input type="text" id="ryokou_nama" name="nama" placeholder="Masukkan nama lengkap (Jangan tulis NIK)" required />
+					<input type="text" id="ryokou_nama" name="nama" placeholder="Masukkan nama lengkap" required />
 				</div>
 
 				<div class="ryokou-form-group">
@@ -240,7 +243,7 @@ function ryokourent_render_booking_form_shortcode() {
 				</div>
 
 				<div class="ryokou-form-group">
-					<label for="ryokou_jenis_id"><?php esc_html_e( '10. Jenis Identitas Pendukung (D-21)', 'ryokourent' ); ?></label>
+					<label for="ryokou_jenis_id"><?php esc_html_e( '10. Jenis Identitas Pendukung', 'ryokourent' ); ?></label>
 					<select id="ryokou_jenis_id" name="jenis_id_pendukung" required>
 						<option value="SIM_C"><?php esc_html_e( 'SIM C Aktif', 'ryokourent' ); ?></option>
 						<option value="KTM"><?php esc_html_e( 'KTM (Kartu Tanda Mahasiswa)', 'ryokourent' ); ?></option>
@@ -265,11 +268,6 @@ function ryokourent_render_booking_form_shortcode() {
 					<input type="text" id="ryokou_alamat_jemput" name="alamat_penjemputan" placeholder="Contoh: Kembali di Pool Batu / Alun-Alun Batu / Nama Hotel" required />
 				</div>
 			</div>
-
-			<p class="ryokou-pdp-disclaimer">
-				🔒 <strong><?php esc_html_e( 'Kepatuhan Privasi UU PDP No. 27/2022:', 'ryokourent' ); ?></strong>
-				<?php esc_html_e( 'Website ini tidak menyimpan NIK 16 digit atau foto KTP Anda. Verifikasi identitas fisik dilakukan langsung saat serah terima unit.', 'ryokourent' ); ?>
-			</p>
 
 			<!-- Ringkasan Estimasi Biaya -->
 			<div class="ryokou-summary-box">
