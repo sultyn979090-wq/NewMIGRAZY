@@ -276,10 +276,10 @@ const MD_FILES_CONTENT: Record<string, { title: string; path: string; summary: s
 ## 2. Checkpoint Pekerjaan Aktif (Untuk Sambung Kerja Lintas-AI)
 - [x] FOLDER_KERJA/NEW_TASK.md — File khusus input permintaan user (default: Tidak ada)
 - [x] FOLDER_KERJA/HANDOVER.md — Prompt Jembatan Antar-AI permanen yang mengarahkan ke NEW_TASK.md
-- [x] FOLDER_KERJA/SESSION_STATE.md & FOLDER_KERJA/SPEC_AND_DECISIONS.md — Dipindahkan ke FOLDER_KERJA/ (1 folder wajib upload)
-- [x] docs/ — Berisi khusus file tutorial & panduan (PANDUAN_XAMPP_WIN11_SIMULASI.md, OPERATOR_MANUAL.md, ADMIN_GUIDE.md, DEPLOYMENT_GUIDE.md)
-- [x] ARSIP/ — Mengumpulkan seluruh 15 file MD tata kelola lama di satu folder arsip
-- [x] wp-content/plugins/ryokourent-core/ — Seluruh kode plugin CPT Lacak Unit (D-26) & Denda ShortRent (D-27) selesai 100%`,
+- [x] FOLDER_KERJA/SESSION_STATE.md & FOLDER_KERJA/SPEC_AND_DECISIONS.md — Dipusatkan di FOLDER_KERJA/ (1 folder wajib upload)
+- [x] docs/ — Menyimpan panduan recovery (PANDUAN_WIZARD_RECOVERY_ZLCE.md)
+- [x] Penyederhanaan Repositori — Berkas panduan usang dan folder ARSIP/ telah dibersihkan & dibackup secara aman
+- [x] wp-content/plugins/ryokourent-core/ — Seluruh kode plugin CPT Lacak Unit (D-26), Denda ShortRent (D-27), & Pengaturan CSS Frontend selesai 100%`,
   },
   spec_decisions: {
     title: '4. FOLDER_KERJA/SPEC_AND_DECISIONS.md (D-01..D-29 & Skema 5 CPT)',
@@ -321,36 +321,18 @@ const MD_FILES_CONTENT: Record<string, { title: string; path: string; summary: s
 
 Lokasi arsip file fisik: docs/archive/snapshot-[timestamp].txt`,
   },
-  docs_dan_arsip: {
-    title: 'Folder docs/ (Tutorial/Panduan) & ARSIP/ (MD Lama)',
-    path: 'docs/ & ARSIP/',
-    summary: 'Tidak perlu di-upload / dibaca rutin. docs/ berisi tutorial XAMPP, Recovery, & Operator; ARSIP/ berisi 15 file MD lama.',
-    content: `# PETA FOLDER docs/ (TUTORIAL & PANDUAN) DAN ARSIP/ (MD LAMA)
+  docs_panduan: {
+    title: 'Folder docs/ (Panduan Recovery)',
+    path: 'docs/',
+    summary: 'Menyimpan panduan operasional ZLCE Recovery. Berkas lama telah dibersihkan sesuai instruksi penyederhanaan repositori.',
+    content: `# FOLDER docs/ (PANDUAN PEMULIHAN & ZLCE RECOVERY)
 
-1. FOLDER docs/ — KHUSUS TUTORIAL & PANDUAN (Hanya Diubah Jika Diminta di NEW_TASK.md):
-   - docs/PANDUAN_WIZARD_RECOVERY_ZLCE.md
-   - docs/PANDUAN_IMPORT_DATA_MOTOR_DARI_REACT.md
-   - docs/PANDUAN_XAMPP_WIN11_SIMULASI.md
-   - docs/OPERATOR_MANUAL.md
-   - docs/ADMIN_GUIDE.md
-   - docs/DEPLOYMENT_GUIDE.md
+1. BERKAS AKTIF DALAM docs/:
+   - docs/PANDUAN_WIZARD_RECOVERY_ZLCE.md — Panduan resmi langkah demi langkah penggunaan Fitur Wizard Recovery ZLCE untuk memulihkan sesi AI terputus.
 
-2. FOLDER ARSIP/ — KUMPULAN SEMUA 15 FILE MD LAMA (Diarsipkan Permanen):
-   - ARSIP/AI_RULES.md
-   - ARSIP/AI_WORKFLOW.md
-   - ARSIP/ARCHITECTURE.md
-   - ARSIP/BLUEPRINT.md
-   - ARSIP/CHANGELOG.md
-   - ARSIP/CODING_STANDARDS.md
-   - ARSIP/DATA_MODEL.md
-   - ARSIP/DECISIONS.md
-   - ARSIP/GIT_WORKFLOW.md
-   - ARSIP/OPEN_QUESTIONS.md
-   - ARSIP/PRE_PRODUCTION_CHECKLIST.md
-   - ARSIP/PRODUCTION_CHECKLIST.md
-   - ARSIP/PROJECT_OVERVIEW.md
-   - ARSIP/TASKS.md
-   - ARSIP/TESTING.md`,
+2. STATUS PENYEDERHANAAN REPOSITORI:
+   - Berkas dokumentasi lama non-kritis dan folder ARSIP/ telah dibersihkan dari repositori aktif (tersimpan aman di backup eksternal).
+   - Seluruh aturan keputusan bisnis, proteksi kode D-31, dan tata kelola tetap terkonsolidasi rapi di FOLDER_KERJA/.`,
   },
 };
 
@@ -813,10 +795,9 @@ export default function RyokourentAuditDashboard() {
               Sistem 1 Folder Kerja (<code className="font-mono text-xl md:text-2xl">FOLDER_KERJA/</code>) & Input <code className="font-mono text-xl md:text-2xl">NEW_TASK.md</code>
             </h1>
             <p className="text-sm md:text-base text-slate-600 leading-relaxed">
-              Seluruh berkas Markdown kini ditata ke dalam <strong className="text-slate-900">3 Folder Terpisah</strong>:{' '}
-              <code className="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded">FOLDER_KERJA/</code> (1 folder wajib di-upload di setiap sesi berisi <code className="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">HANDOVER.md</code>, <code className="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">NEW_TASK.md</code>, <code className="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">SESSION_STATE.md</code>, & <code className="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">SPEC_AND_DECISIONS.md</code>),{' '}
-              <code className="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded">docs/</code> (khusus tutorial & panduan operasional), dan{' '}
-              <code className="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded">ARSIP/</code> (kumpulan 15 file MD lama).
+              Seluruh berkas tata kelola terpusat di{' '}
+              <code className="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded">FOLDER_KERJA/</code> (1 folder wajib di-upload di setiap sesi berisi <code className="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">HANDOVER.md</code>, <code className="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">NEW_TASK.md</code>, <code className="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">SESSION_STATE.md</code>, <code className="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">SPEC_AND_DECISIONS.md</code>, & <code className="font-mono text-xs bg-slate-100 px-1 py-0.5 rounded">AI_WORKFLOW.md</code>), serta{' '}
+              <code className="font-mono text-xs bg-slate-100 px-1.5 py-0.5 rounded">docs/</code> (panduan pemulihan sesi). Berkas lama dan folder ARSIP telah dibersihkan secara aman.
             </p>
           </div>
 
@@ -968,40 +949,34 @@ export default function RyokourentAuditDashboard() {
               </button>
             </div>
 
-            {/* Petunjuk 3 Folder MD */}
+            {/* Petunjuk Folder Tata Kelola */}
             <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
               <div className="flex items-center justify-between border-b border-slate-200 pb-3">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-800" />
                   <h2 className="text-base font-bold text-slate-900">
-                    Pembagian 3 Folder MD (<code className="font-mono">FOLDER_KERJA/</code>, <code className="font-mono">docs/</code>, <code className="font-mono">ARSIP/</code>)
+                    Struktur Folder Tata Kelola Proyek (<code className="font-mono">FOLDER_KERJA/</code> & <code className="font-mono">docs/</code>)
                   </h2>
                 </div>
                 <span className="text-xs font-mono font-semibold text-emerald-800">D-29 AKTIF</span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                 <div className="p-4 bg-emerald-50/60 border border-emerald-200 rounded-lg space-y-2">
                   <div className="font-bold text-emerald-950">1. FOLDER_KERJA/ (WAJIB DI-UPLOAD SETIAP SESI)</div>
                   <ol className="list-decimal list-inside space-y-1 text-slate-700 font-medium">
                     <li><code className="font-mono font-bold text-slate-900">HANDOVER.md</code> (Prompt statis siap salin)</li>
                     <li><code className="font-mono font-bold text-slate-900">NEW_TASK.md</code> (Isi task baru / default: <code className="font-mono">Tidak ada</code>)</li>
                     <li><code className="font-mono font-bold text-slate-900">SESSION_STATE.md</code> (Status & Checklist <code className="font-mono">[x]/[ ]</code>)</li>
-                    <li><code className="font-mono font-bold text-slate-900">SPEC_AND_DECISIONS.md</code> (D-01..D-29 & 5 CPT)</li>
+                    <li><code className="font-mono font-bold text-slate-900">SPEC_AND_DECISIONS.md</code> (D-01..D-31 & 5 CPT)</li>
+                    <li><code className="font-mono font-bold text-slate-900">AI_WORKFLOW.md</code> (Tata kelola operasional & proteksi kode)</li>
                   </ol>
                 </div>
 
                 <div className="p-4 bg-slate-50 border border-slate-200 rounded-lg space-y-2">
-                  <div className="font-bold text-slate-900">2. docs/ (KHUSUS TUTORIAL & PANDUAN)</div>
+                  <div className="font-bold text-slate-900">2. docs/ (PANDUAN RECOVERY) & REPO BERSIH</div>
                   <p className="text-slate-600 leading-relaxed">
-                    Berisi <code className="font-mono font-semibold">PANDUAN_XAMPP_WIN11_SIMULASI.md</code>, <code className="font-mono font-semibold">OPERATOR_MANUAL.md</code>, <code className="font-mono">ADMIN_GUIDE.md</code>, & <code className="font-mono">DEPLOYMENT_GUIDE.md</code>. <strong>Tidak perlu di-upload/dibaca</strong> kecuali diminta diubah di <code className="font-mono">NEW_TASK.md</code>.
-                  </p>
-                </div>
-
-                <div className="p-4 bg-amber-50/50 border border-amber-200 rounded-lg space-y-2">
-                  <div className="font-bold text-amber-950">3. ARSIP/ (KUMPULAN SEMUA 15 MD LAMA)</div>
-                  <p className="text-slate-600 leading-relaxed">
-                    Menyimpan 15 file MD lama (<code className="font-mono">AI_RULES.md</code>, <code className="font-mono">AI_WORKFLOW.md</code>, <code className="font-mono">TASKS.md</code>, <code className="font-mono">DECISIONS.md</code>, dll.). Sudah dilebur ke <code className="font-mono">FOLDER_KERJA/</code> dan <strong>tidak pernah di-upload lagi</strong>.
+                    Menyimpan <code className="font-mono font-semibold">PANDUAN_WIZARD_RECOVERY_ZLCE.md</code> sebagai panduan operasional pemulihan sesi. Seluruh dokumen panduan lama dan folder <code className="font-mono">ARSIP/</code> telah dibersihkan dari repositori aktif (tersimpan aman di backup eksternal).
                   </p>
                 </div>
               </div>

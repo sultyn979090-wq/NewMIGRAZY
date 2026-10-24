@@ -20,16 +20,17 @@ Metodologi: **Zero-Loss Context Engineering (ZLCE v3.2.2 - Mode LITE)**.
 
 ## 2. FORMAT TASK
 
-### TASK-001: Restrukturisasi Repositori & Arsip Berkas Usang
+### TASK-001: Restrukturisasi & Penyederhanaan Repositori
 * **Fase:** FASE 0
-* **Deskripsi:** Merapikan direktori kerja, mengarsipkan berkas lama yang tidak digunakan ke `/ARSIP/`, dan mengaktifkan berkas kontrol ZLCE Mode LITE (`BLUEPRINT.md`, `TASKS.md`, `SESSION_STATE.md`, `HANDOVER.md`).
+* **Deskripsi:** Merapikan direktori kerja, membersihkan dokumentasi lama yang sudah dibackup di luar repo, dan memelihara berkas kontrol ZLCE Mode LITE (`BLUEPRINT.md`, `TASKS.md`, `SESSION_STATE.md`, `HANDOVER.md`).
 * **Dependensi:** -
-* **File:** `FOLDER_KERJA/*`, `ARSIP/*`
+* **File:** `FOLDER_KERJA/*`, `docs/*`
 * **Docs Terkait (Tier 1):** `BLUEPRINT.md`
 * **Docs Impact:** `SESSION_STATE.md`
 * **Acceptance Criteria:**
   1. Direktori `/FOLDER_KERJA/` hanya memuat berkas aktif terkini.
-  2. Berkas lama tersimpan rapi di `/ARSIP/` tanpa ada file duplikat.
+  2. Direktori `/docs/` hanya memuat panduan recovery aktif (`PANDUAN_WIZARD_RECOVERY_ZLCE.md`).
+  3. Repositori bersih, ringan, dan bebas dari duplikasi file.
 * **Test Case:** Validasi struktur direktori bersih.
 * **Metode Verifikasi:** `list_dir` dan verifikasi integritas berkas kontrol.
 
